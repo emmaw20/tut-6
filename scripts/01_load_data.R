@@ -16,4 +16,4 @@ data <- penguins %>% drop_na()
 
 write_csv(data, opt$output)
 
-# Rscript scripts/01_clean_data.R --output=data/penguins.csv"
+# Rscript scripts/01_clean_data.R --output=data/penguins.csv

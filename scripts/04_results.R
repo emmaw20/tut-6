@@ -21,4 +21,4 @@ conf_mat <- conf_mat(predictions, truth = species, estimate = .pred_class)
 conf_mat
 
 write_csv(conf_mat, opt$conf_matrix)
-# Rscript scripts/03_model.R --input_data=<data> --preds=<preds> --conf_matrix=<conf_matrix>
+# Rscript scripts/03_model.R --input_data=data/test.csv --preds=results/predictions.csv --conf_matrix=results/tables/confusion_matrix.csv

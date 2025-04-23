@@ -36,4 +36,5 @@ saveRDS(penguin_model, opt$model)
 
 
 
-# Rscript scripts/03_model.R --input_data=data/prep_penguins.csv --train=data/train.csv --test=data/test.csv --model=results/model/knn_penguin.RDS --preds=results/tables/predictions.csv --conf_matrix=<results/tables/conf_matrix.csv>
+# Rscript scripts/03_model.R --input_data=data/prep_penguins.csv --train=data/train.csv --test=data/test.csv --model=results/model/knn_penguin.RDS 
+
