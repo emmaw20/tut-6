@@ -1,6 +1,6 @@
 # summary statistics and visualization 
 
-"this script loads the penguin data and cleans it by dropping nans
+"this script calculates summary statistics, creates a visualization and prepares the data for the model
 example: scripts/02_methods.R --input_data=<data> --summary=<summary> --boxplot=<boxplot> --prep_data=<prep_data>
 "-> doc
 
