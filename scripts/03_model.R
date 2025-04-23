@@ -1,12 +1,16 @@
 # summary statistics and visualization 
-
+library(docopt)
+library(tidyverse)
+library(readr)
+library(tidymodels)
 "this script splits the data, defines and fits the model
-example: scripts/03_model.R --input_data=<data> --train=<train> --test=<test> --model=<model> --preds=<preds> --conf_matrix=<conf_matrix>
+Usage: scripts/03_model.R --input_data=<input_data> --train=<train> --test=<test> --model=<model> 
 "-> doc
 
 opt <- docopt(doc)
 
-data <- read_csv(opt$data)
+data <- read_csv(opt$input_data) %>%
+        mutate(species = as.factor(species))
 
 # Split data
 set.seed(123)
@@ -32,9 +36,9 @@ penguin_workflow <- workflow() %>%
 penguin_fit <- penguin_workflow %>%
     fit(data = train_data)
 
-saveRDS(penguin_model, opt$model)
+saveRDS(penguin_fit, opt$model)
 
 
 
-# Rscript scripts/03_model.R --input_data=data/prep_penguins.csv --train=data/train.csv --test=data/test.csv --model=results/model/knn_penguin.RDS 
+# Rscript scripts/03_model.R --input_data=data/prep_penguins.csv --train=data/train.csv --test=data/test.csv --model=results/model/knn_penguin.RDS
 

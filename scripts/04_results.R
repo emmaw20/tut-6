@@ -1,24 +1,44 @@
-# presents results 
-"this script predicts results on test data and creates a confusion matrix 
-example: scripts/03_model.R --input_data=<data> --preds=<preds> --conf_matrix=<conf_matrix>
-"-> doc
+library(docopt)
+library(tidyverse)
+library(readr)
+library(tidymodels)
+
+"
+this script predicts results on test data and creates a confusion matrix 
+Usage: scripts/04_results.R --input_data=<input_data> --model=<model> --preds=<preds> --conf_matrix=<conf_matrix>
+" -> doc
 
 opt <- docopt(doc)
 
-data <- read_csv(opt$data)
+# Read data and model
+test_data <- read_csv(opt$input_data)
+penguin_fit <- readRDS(opt$model)
 
-# Results
+# Predict
+predicted_classes <- predict(penguin_fit, test_data, type = "class")
+predictions <- bind_cols(predicted_classes, test_data)
 
+# Inspect structure before creating results tibble
+cat("\nStructure of predictions:\n")
+print(str(predictions))
 
-# Predict on test data
-predictions <- predict(penguin_fit, test_data, type = "class") %>%
-    bind_cols(test_data)
+# Create results tibble with renamed factor columns
+results <- tibble(
+    truth = factor(predictions$species),
+    estimate = factor(predictions$.pred_class)
+)
 
-write_csv(predictions, opt$preds)
+# Inspect results tibble structure
+cat("\nStructure of results tibble:\n")
+print(str(results))
 
 # Confusion matrix
-conf_mat <- conf_mat(predictions, truth = species, estimate = .pred_class)
-conf_mat
+conf_matrix <- conf_mat(results, truth = truth, estimate = estimate)
 
-write_csv(conf_mat, opt$conf_matrix)
-# Rscript scripts/03_model.R --input_data=data/test.csv --preds=results/predictions.csv --conf_matrix=results/tables/confusion_matrix.csv
+# Save outputs
+write_csv(predictions, opt$preds)
+write_csv(as_tibble(conf_matrix$table), opt$conf_matrix)
+
+# Rscript scripts/04_results.R --input_data=data/test.csv --model=results/model/knn_penguin.RDS --preds=results/tables/predictions.csv --conf_matrix=results/tables/confusion_matrix.csv
+
+

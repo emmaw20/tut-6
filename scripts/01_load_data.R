@@ -4,9 +4,10 @@
 library(tidyverse)
 library(palmerpenguins)
 library(tidymodels)
+library(docopt)
 
 "this script loads the penguin data and cleans it by dropping nans
-example: scripts/01_clean_data.R --output=data/penguins.csv
+Usage: scripts/01_load_data.R --output=<data>
 "-> doc
 
 opt <- docopt(doc)
@@ -16,4 +17,4 @@ data <- penguins %>% drop_na()
 
 write_csv(data, opt$output)
 
-# Rscript scripts/01_clean_data.R --output=data/penguins.csv
+# Rscript scripts/01_load_data.R --output=data/penguins.csv

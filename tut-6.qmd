@@ -10,69 +10,50 @@ In this tutorial, you will refactor the code into separate scripts corresponding
 ## Load Libraries and Data
 
 ```{r}
-#| echo: false
-library(tidyverse)
-
-read_csv("data/penguins.csv")
+library(readr)
+penguins <- read_csv("data/penguins.csv")
+head(penguins)
 ```
+
 
 # Methods
 
 In this section, we perform exploratory data analysis (EDA) and prepare the data for modeling.
 
+## Summary statistics 
 ```{r}
-# Summary statistics
-glimpse(data)
-summarise(data, mean_bill_length = mean(bill_length_mm), mean_bill_depth = mean(bill_depth_mm))
-
-# Visualizations
-ggplot(data, aes(x = species, y = bill_length_mm, fill = species)) +
-  geom_boxplot() +
-  theme_minimal()
-
-# Prepare data for modeling
-data <- data %>%
-  select(species, bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g) %>%
-  mutate(species = as.factor(species))
+library(readr)
+sum_stats <- read_csv("results/tables/summary_stats.csv")
+head(sum_stats)
 ```
+
+
+## Summary plot
+![Bill Length by species](results/figures/boxplot.png){#box-plot}
+
 
 # Model
 
 We will fit a classification model using `tidymodels` to predict the species of a penguin based on its physical characteristics.
 
+
 ```{r}
-# Split data
-set.seed(123)
-data_split <- initial_split(data, strata = species)
-train_data <- training(data_split)
-test_data <- testing(data_split)
-
-# Define model
-penguin_model <- nearest_neighbor(mode = "classification", neighbors = 5) %>%
-  set_engine("kknn")
-
-# Create workflow
-penguin_workflow <- workflow() %>%
-  add_model(penguin_model) %>%
-  add_formula(species ~ .)
-
-# Fit model
-penguin_fit <- penguin_workflow %>%
-  fit(data = train_data)
+train <- read_csv("data/train.csv")
+test <- read_csv("data/test.csv")
+head(train)
+head(test)
 ```
+
 
 # Results
 
 We evaluate the performance of the model using the test dataset.
 
 ```{r}
-# Predict on test data
-predictions <- predict(penguin_fit, test_data, type = "class") %>%
-  bind_cols(test_data)
-
-# Confusion matrix
-conf_mat <- conf_mat(predictions, truth = species, estimate = .pred_class)
-conf_mat
+preds <- read_csv("results/tables/predictions.csv")
+conf <- read_csv("results/tables/confusion_matrix.csv")
+head(preds)
+head(conf)
 ```
 
 # Conclusion

@@ -1,7 +1,9 @@
 # summary statistics and visualization 
-
+library(docopt)
+library(tidyverse)
+library(readr)
 "this script calculates summary statistics, creates a visualization and prepares the data for the model
-example: scripts/02_methods.R --input_data=<data> --summary=<summary> --boxplot=<boxplot> --prep_data=<prep_data>
+Usage: scripts/02_methods.R --input_data=<data> --summary=<summary> --boxplot=<boxplot> --prep_data=<prep_data>
 "-> doc
 
 opt <- docopt(doc)
@@ -19,11 +21,11 @@ summary_stats <- summarise(data,
 write_csv(summary_stats, opt$summary)
 
 # Visualizations
-boxplot <- ggplot(data, aes(x = species, y = bill_length_mm, fill = species)) +
+boxplot_image <- ggplot(data, aes(x = species, y = bill_length_mm, fill = species)) +
     geom_boxplot() +
     theme_minimal()
 
-ggsave(boxplot, opt$boxplot)
+ggsave(opt$boxplot, boxplot_image)
 
 # Prepare data for modeling
 data <- data %>%
