@@ -1,6 +1,6 @@
 # summary statistics and visualization 
 
-"this script loads the penguin data and cleans it by dropping nans
+"this script splits the data, defines and fits the model, predicts results and creates a confusion matrix 
 example: scripts/03_model.R --input_data=<data> --train=<train> --test=<test> --model=<model> --preds=<preds> --conf_matrix=<conf_matrix>
 "-> doc
 
