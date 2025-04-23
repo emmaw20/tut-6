@@ -10,15 +10,10 @@ In this tutorial, you will refactor the code into separate scripts corresponding
 ## Load Libraries and Data
 
 ```{r}
-#| echo: fenced
+#| echo: false
 library(tidyverse)
-library(palmerpenguins)
-library(tidymodels)
 
-data <- penguins
-
-# Initial cleaning: Remove missing values
-data <- data %>% drop_na()
+read_csv("data/penguins.csv")
 ```
 
 # Methods

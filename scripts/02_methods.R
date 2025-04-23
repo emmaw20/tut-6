@@ -32,5 +32,5 @@ data <- data %>%
 
 write_csv(data, opt$prep_data)
 
-# Rscript script/02_methods --input_data=data/penguins.csv --summary=results/tables/summary_stats.csv --boxplot=results/figures/boxplot.png --prep_data=data/prep_penguins.csv
+# Rscript script/02_methods.R --input_data=data/penguins.csv --summary=results/tables/summary_stats.csv --boxplot=results/figures/boxplot.png --prep_data=data/prep_penguins.csv
 
